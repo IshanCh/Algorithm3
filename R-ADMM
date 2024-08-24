@@ -100,7 +100,8 @@ function node_based_admm(G, k, gamma, κ, A_list, b_list, global_x, colA, sigma,
             end
             
             # Equation 51: Update x_i^k
-            x_i_next = (condition_number_check(A_i) + r[i] * I(colA)) \ (A_i' * b_i + λ[:, i, iteration + 1])  # Matrix-vector multiplication
+            # x_i_next = (condition_number_check(A_i) + r[i] * I(colA)) \ (A_i' * b_i + λ[:, i, iteration + 1])  # Matrix-vector multiplication
+            x_i_next = (A_i' * A_i + r[i] * I(colA)) \ (A_i' * b_i .+ λ[:, i, iteration]) # Update x
             x[:, i, iteration + 1] .= x_i_next
             
             # Debugging output for key variables
